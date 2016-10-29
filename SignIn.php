@@ -66,7 +66,7 @@ if (!empty($_POST)) {
       }
       
     } else {
-
+      //User doesn't exist
       echo "<br>Sorry, wrong email or password";
     }
     

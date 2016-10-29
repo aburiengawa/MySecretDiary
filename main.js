@@ -1,8 +1,8 @@
 window.onload = function() {
 
     $("textarea").keyup(function(){
+      //When key pressed, update SQL via ajax.php
       var diary = $("textarea").val();
-//      $.redirect("ajax.php", {content: diary});
         $.ajax({
           type: "POST",
           url: "./ajax.php",

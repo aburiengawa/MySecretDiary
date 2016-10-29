@@ -1,35 +1,31 @@
 <?php
 
-//include('session.php');
 include('SQLFunctions.php');
 
 if (!empty($_POST)) {
   
   $email = filter_var($_POST['email'], FILTER_SANITIZE_STRING);
   $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
-  echo "<br>".$email;
-  echo "<br>".$password;
   
   if (strlen($password) > 7 && filter_var($email, FILTER_VALIDATE_EMAIL)) {
     //Test to see if password has at least 8 characters
-
     $link = connectDB();
 
     $sql = "SELECT `userEmail` FROM `users` WHERE `userEmail` = '".mysqli_real_escape_string($link, $email)."'";
 
     if ($result = mysqli_query($link, $sql)) {
-      //If query is run, check if it matches a row in the DB
+      //Check if it matches a row in the DB
       if (mysqli_num_rows($result) > 0) {
         //If it matches a row in the DB, then user exists
         echo "<br>Email already exists";
         echo "<br><a href='index.php'>Home</a>";
         
       } else {
-        //If user does not exist, then insert into DB
+        //If user does not exist, then INSERT into DB
         $sql = "INSERT INTO `users` (`userEmail`) VALUES ('".mysqli_real_escape_string($link, $email)."')";
 
         if (mysqli_query($link, $sql)) {
-          //If query inserts new data, insert email then prepare password
+          //If query INSERT new data, SELECT email, then prepare password
           $sql = "SELECT `userID` FROM `users` WHERE `userEmail` = '".mysqli_real_escape_string($link, $email)."' LIMIT 1";
 
           $result = mysqli_query($link, $sql);
@@ -41,8 +37,8 @@ if (!empty($_POST)) {
 
           if(mysqli_query($link, $sql)) {
             //if password was updated, inform user
-            echo "<br>User created";
-            echo "<br><a href='index.php'>Home</a>";
+            echo "<br>User created!";
+            echo "<br>Return to <a href='index.php'>Home</a> and log in as the new user.";
 
           } else {
             //password update fail
